@@ -1,0 +1,6 @@
+aiohttp
+asyncio
+cloudscraper
+colorama
+InquirerPy
+nest_asyncio
