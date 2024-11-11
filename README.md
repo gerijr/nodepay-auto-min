@@ -33,7 +33,7 @@ This script automates network or node operations for Nodepay Network.
 
    ```bash
 
-	git clone https://github.com/gerijr/nodepay-auto-min/tree/main
+	git clone https://github.com/gerijr/nodepay-auto-min
 
    ```
 
@@ -41,7 +41,7 @@ This script automates network or node operations for Nodepay Network.
 
 	```bash
 
-	cd nodepay-network-bot
+	cd nodepay-auto-min
 
 	```
 
