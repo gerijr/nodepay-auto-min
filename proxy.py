@@ -1,14 +1,1 @@
-http://gerisulfikar:memek123@198.23.239.134:6540
-http://gerisulfikar:memek123@207.244.217.165:6712
-http://gerisulfikar:memek123@107.172.163.27:6543
-http://gerisulfikar:memek123@64.137.42.112:5157
-http://gerisulfikar:memek123@173.211.0.148:6641
-http://gerisulfikar:memek123@161.123.152.115:6360
-http://gerisulfikar:memek123@167.160.180.203:6754
-http://gerisulfikar:memek123@154.36.110.199:6853
-http://gerisulfikar:memek123@173.0.9.70:5653
-http://gerisulfikar:memek123@173.0.9.209:5792
-http://vanhbaka:Vanhdayyyy@38.154.227.167:5868
-http://vanhbaka:Vanhdayyyy@45.127.248.127:5128
-http://vanhbaka:Vanhdayyyy@207.244.217.165:6712
-http://jwd6biqqml8hctb:v7fmae62ogq2z1x@172.65.64.100:6060
+
