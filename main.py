@@ -19,7 +19,7 @@ def call_api(url, data, proxy, token):
 
     try:
         scraper = cloudscraper.create_scraper()
-        response = scraper.post(url, json=data, headers=headers, proxies={"http": proxy, "https": proxy}, timeout=10)
+        response = scraper.post(url, json=data, headers=headers, proxies={"http": proxy, "https": proxy}, timeout=30)
         response.raise_for_status()  # Raises an HTTPError for 4xx/5xx responses
         return valid_resp(response.json())
     except ProxyError:
@@ -31,18 +31,21 @@ def call_api(url, data, proxy, token):
 
 # Constants
 PING_INTERVAL = 1
-RETRIES = 30
+RETRIES = 60
 
+# API Endpoints
 DOMAIN_API_ENDPOINTS = {
-    "SESSION": ["http://api.nodepay.ai/api/auth/session"],
+    "SESSION": [
+        "https://api.nodepay.ai/api/auth/session"
+    ],
     "PING": [
+        "http://52.77.10.116/api/network/ping",
         "http://13.215.134.222/api/network/ping",
-        "http://18.139.20.49/api/network/ping",
-        "http://18.142.29.174/api/network/ping",
-        "http://18.142.214.13/api/network/ping",
-        "http://52.74.31.107/api/network/ping",
+        "http://18.136.143.169/api/network/ping",
         "http://52.74.35.173/api/network/ping",
-        "http://52.77.10.116/api/network/ping"
+        "http://18.142.214.13/api/network/ping",
+        "http://18.142.29.174/api/network/ping",
+        "http://52.74.31.107/api/network/ping"
     ]
 }
 
@@ -68,7 +71,7 @@ def call_api(url, data, proxy, token):
 
     try:
         scraper = cloudscraper.create_scraper()
-        response = scraper.post(url, json=data, headers=headers, proxies={"http": proxy, "https": proxy}, timeout=10)
+        response = scraper.post(url, json=data, headers=headers, proxies={"http": proxy, "https": proxy}, timeout=30)
         response.raise_for_status()  # Raises an HTTPError for 4xx/5xx responses
         return valid_resp(response.json())
     except Exception:
@@ -146,7 +149,7 @@ def call_api(url, data, proxy, token):
 
     try:
         scraper = cloudscraper.create_scraper()
-        response = scraper.post(url, json=data, headers=headers, proxies={"http": proxy, "https": proxy}, timeout=10)
+        response = scraper.post(url, json=data, headers=headers, proxies={"http": proxy, "https": proxy}, timeout=30)
         response.raise_for_status()  # Raises an HTTPError for 4xx/5xx responses
         return valid_resp(response.json())
     except Exception as e:
@@ -164,7 +167,7 @@ def call_api(url, data, proxy, token):
 
     try:
         scraper = cloudscraper.create_scraper()
-        response = scraper.post(url, json=data, headers=headers, proxies={"http": proxy, "https": proxy}, timeout=10)
+        response = scraper.post(url, json=data, headers=headers, proxies={"http": proxy, "https": proxy}, timeout=30)
         response.raise_for_status()  # Raise an HTTPError for 4xx/5xx responses
         return valid_resp(response.json())
     except Exception:
