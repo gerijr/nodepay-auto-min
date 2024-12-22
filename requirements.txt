@@ -1,6 +1,7 @@
 aiohttp
-asyncio
 cloudscraper
+loguru
+fake-useragent
+python-dateutil
 colorama
-InquirerPy
-nest_asyncio
+curl_cffi
