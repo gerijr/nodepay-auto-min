@@ -1,7 +1,7 @@
 import asyncio
 import time
 import uuid
-import sys  # <-- Add this import statement
+import sys
 from loguru import logger
 from fake_useragent import UserAgent
 from curl_cffi import requests
@@ -29,19 +29,18 @@ account_info = {}
 last_ping_time = {}
 
 print(f'==============================================')
-print(f'NGARIT NODEPAY')
+print(f'Farming & Daily Claim Nodepay Multiple Account')
 print(f'==============================================')
 
-# Suppress 429 HTTP error in logs using a custom filter
-def filter_429(record):
-    # Suppress HTTP Error 429
-    if "HTTP Error 429" in record["message"]:
-        return False  # Return False to skip logging this message
+# Suppress 429 and 403 HTTP errors in logs using a custom filter
+def filter_403_429(record):
+    if "HTTP Error 429" in record["message"] or "HTTP Error 403" in record["message"]:
+        return False
     return True
 
 # Apply the filter to the logger
 logger.remove()
-logger.add(sys.stderr, level="INFO", filter=filter_429)  # Set default level to INFO and apply filter
+logger.add(sys.stderr, level="INFO", filter=filter_403_429)
 
 def dailyclaim(token):
     try:
@@ -55,16 +54,14 @@ def dailyclaim(token):
         }
         
         data = {
-                "mission_id":"1"
+                "mission_id": "1"
         }
         
         response = requests.post(url, headers=headers, json=data, impersonate="chrome110")
-        is_success = response.json().get('success')
-        if is_success == True:
-                logger.info('Claim Reward Success!')
-                logger.info(response.json())
+        if response.json().get('success'):
+            logger.info('Claim Reward Success!')
         else:
-                logger.info('Reward Already Claimed! Or Something Wrong!')
+            logger.info('No reward claimed.')
     except requests.exceptions.RequestException as e:
         logger.error(f"Error during claim request: {e}")
 
@@ -122,12 +119,11 @@ async def call_api(url, data, token):
 
     try:
         response = requests.post(url, json=data, headers=headers, impersonate="chrome110", timeout=30)
-
         response.raise_for_status()  # Will raise an exception for 4xx/5xx status codes
         return valid_resp(response.json())
     except requests.exceptions.RequestException as e:
         logger.error(f"Error during API call to {url}: {e}")
-        return {}  # Return an empty dictionary for failed requests
+        return {}
     except Exception as e:
         logger.error(f"Unexpected error during API call to {url}: {e}")
         return {}
@@ -158,7 +154,7 @@ async def ping(token):
 
         response = await call_api(DOMAIN_API["PING"], data, token)
         if response.get("code") == 0:
-            logger.info(f"Ping successful: {response}")
+            logger.info(f"Connected: {response}")
             RETRIES = 0
             status_connect = CONNECTION_STATES["CONNECTED"]
             dailyclaim(token)
@@ -187,11 +183,11 @@ def handle_logout():
     logger.info("Logged out and cleared session info.")
 
 def save_session_info(data):
-    # Saving session info (this could be to a file or a database)
+    # Implement saving session info (to file or database)
     pass
 
 def load_session_info():
-    return {}  # Return an empty dictionary if no session is saved
+    return {}  # Simulated empty session
 
 def render_profile_info_thread(token):
     asyncio.run(render_profile_info(token))
@@ -200,17 +196,19 @@ async def process_tokens(tokens):
     tasks = [render_profile_info(token) for token in tokens]
     await asyncio.gather(*tasks)
 
-def main():
-    # Baca token dari file tokens.txt
+def read_tokens_from_file():
     try:
         with open('tokens.txt', 'r') as file:
-            tokens = [line.strip() for line in file if line.strip()]
+            return [line.strip() for line in file if line.strip()]
     except FileNotFoundError:
-        logger.error("File tokens.txt tidak ditemukan. Pastikan file tersebut ada di direktori yang sama.")
+        logger.error("File tokens.txt not found.")
         exit()
 
+def main():
+    tokens = read_tokens_from_file()
+
     if not tokens:
-        logger.error("File tokens.txt kosong. Harap masukkan token ke dalam file.")
+        logger.error("No tokens found. Please add tokens to tokens.txt.")
         exit()
 
     asyncio.run(process_tokens(tokens))
